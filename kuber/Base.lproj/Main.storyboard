@@ -16,9 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Acc-vS-mDn">
-                                <rect key="frame" x="110" y="98" width="380" height="352"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Is-Bx-u6r">
                                 <rect key="frame" x="71" y="489" width="84" height="30"/>
                                 <state key="normal" title="Take Picture">
@@ -26,6 +23,18 @@
                                 </state>
                                 <connections>
                                     <action selector="takePicture:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="yGV-x6-mzS"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Acc-vS-mDn">
+                                <rect key="frame" x="110" y="98" width="380" height="352"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EM4-Hh-cDh">
+                                <rect key="frame" x="211" y="489" width="85" height="30"/>
+                                <state key="normal" title="Camera Roll">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="useCameraRoll:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aXK-ea-0db"/>
                                 </connections>
                             </button>
                         </subviews>
