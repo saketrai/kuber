@@ -9,6 +9,7 @@
 import UIKit
 import MobileCoreServices
 import Parse
+import Bolts
 
 
 
@@ -68,15 +69,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         
-        let mediaType = info[UIImagePickerControllerMediaType] as String
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
         
         self.dismissViewControllerAnimated(true, completion: nil)
         
         if mediaType == (kUTTypeImage as String) {
             let image = info[UIImagePickerControllerOriginalImage]
-                as UIImage
+                as! UIImage
             
             snapShot.image = image
+            let imageData = UIImagePNGRepresentation(image)
+            let imageFile = PFFile(name:"image.png", data:imageData)
+            
+            var userPhoto = PFObject(className:"marketPics")
+            userPhoto["imageName"] = "Remote"
+            userPhoto["imageFile"] = imageFile
+            userPhoto.saveInBackground()
             
             if (newMedia == true) {
                 UIImageWriteToSavedPhotosAlbum(image, self,
