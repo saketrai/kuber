@@ -11,7 +11,13 @@ import MobileCoreServices
 import Parse
 import Bolts
 
-
+extension UIImage {
+    var highestQualityJPEGNSData:NSData { return UIImageJPEGRepresentation(self, 1.0) }
+    var highQualityJPEGNSData:NSData    { return UIImageJPEGRepresentation(self, 0.75)}
+    var mediumQualityJPEGNSData:NSData  { return UIImageJPEGRepresentation(self, 0.5) }
+    var lowQualityJPEGNSData:NSData     { return UIImageJPEGRepresentation(self, 0.25)}
+    var lowestQualityJPEGNSData:NSData  { return UIImageJPEGRepresentation(self, 0.0) }
+}
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -23,11 +29,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
         // Do any additional setup after loading the view, typically from a nib.
         
-        let testObject = PFObject(className: "TestObject")
-        testObject["foo"] = "bar"
-        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            println("Object has been saved.")
-        }
+//        let testObject = PFObject(className: "TestObject")
+//        testObject["foo"] = "bar"
+//        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+//            println("Object has been saved.")
+//        }
 
     }
     @IBAction func takePicture(sender: AnyObject) {
@@ -78,13 +84,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 as! UIImage
             
             snapShot.image = image
-            let imageData = UIImagePNGRepresentation(image)
+           // let imageData = UIImagePNGRepresentation(image)
+            let imageData = image.lowestQualityJPEGNSData
             let imageFile = PFFile(name:"image.png", data:imageData)
             
             var userPhoto = PFObject(className:"marketPics")
             userPhoto["imageName"] = "Remote"
             userPhoto["imageFile"] = imageFile
-            userPhoto.saveInBackground()
+           // userPhoto.saveInBackground()
+            userPhoto.saveInBackgroundWithBlock {
+                (success: Bool, error: NSError?) -> Void in
+                if (success) {
+                    println("image has been saved")
+                } else {
+                    println("image failed")
+                }
+            }
             
             if (newMedia == true) {
                 UIImageWriteToSavedPhotosAlbum(image, self,
@@ -120,5 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+
 }
 
