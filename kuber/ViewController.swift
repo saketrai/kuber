@@ -8,7 +8,7 @@
 
 import UIKit
 import MobileCoreServices
-
+import Parse
 
 
 
@@ -19,7 +19,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let testObject = PFObject(className: "TestObject")
+        testObject["foo"] = "bar"
+        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            println("Object has been saved.")
+        }
 
     }
     @IBAction func takePicture(sender: AnyObject) {
@@ -61,20 +68,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         
-        let mediaType = info[UIImagePickerControllerMediaType] as! String
+        let mediaType = info[UIImagePickerControllerMediaType] as String
         
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        if mediaType == (kUTTypeImage as! String) {
+        if mediaType == (kUTTypeImage as String) {
             let image = info[UIImagePickerControllerOriginalImage]
-                as! UIImage
+                as UIImage
             
             snapShot.image = image
             
             if (newMedia == true) {
                 UIImageWriteToSavedPhotosAlbum(image, self,
                     "image:didFinishSavingWithError:contextInfo:", nil)
-            } else if mediaType == (kUTTypeMovie as! String) {
+            } else if mediaType == (kUTTypeMovie as String) {
                 // Code to support video here
             }
             
